@@ -1,24 +1,42 @@
 import streamlit as st
+from src.ingestion.pdf_parser import parse_pdf
+from src.chunking.chunker import chunk_text
+from src.embeddings.embedder import embed_chunks
 from src.retriever.retriever import retrieve
 from src.generation.qa_generator import generate_answer
 
-st.set_page_config(page_title="Multi-Modal RAG System", layout="wide")
-st.title("📘 Multi-Modal RAG Demo")
+st.title("📄 Multi-Modal RAG System")
 
-query = st.text_input("Enter your question:")
+uploaded_file = st.file_uploader("Upload PDF", type=["pdf"])
 
-if st.button("Search"):
+if uploaded_file:
+    with open("uploaded.pdf", "wb") as f:
+        f.write(uploaded_file.getbuffer())
+
+    st.success("PDF uploaded successfully!")
+
+    if st.button("Process PDF"):
+        with st.spinner("Parsing PDF..."):
+            pages = parse_pdf("uploaded.pdf")
+
+        with st.spinner("Chunking text..."):
+            chunks = chunk_text(pages)
+
+        with st.spinner("Embedding text..."):
+            embed_chunks(chunks)
+
+        st.success("PDF processed and indexed!")
+
+query = st.text_input("Ask a question about the PDF:")
+
+if st.button("Get Answer"):
     if not query.strip():
-        st.error("Please type a question first.")
+        st.warning("Enter a question first.")
     else:
-        with st.spinner("Retrieving context..."):
-            chunks = retrieve(query, k=5)
+        with st.spinner("Retrieving info..."):
+            retrieved = retrieve(query)
 
-        with st.expander("Retrieved Chunks"):
-            for c in chunks:
-                st.write(f"**Page {c.get('page')}** — {c.get('text')[:300]}...")
+        answer = generate_answer(query, retrieved)
 
-        answer = generate_answer(query, chunks)
-        
-        st.subheader("🧠 Answer")
+        st.subheader("Answer:")
         st.write(answer)
