@@ -1,0 +1,11 @@
+streamlit
+pdfplumber
+pytesseract
+Pillow
+pandas
+faiss-cpu
+sentence-transformers
+openai
+langchain
+torch
+tabula-py
