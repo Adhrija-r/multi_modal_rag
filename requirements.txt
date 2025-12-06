@@ -1,0 +1,6 @@
+streamlit
+sentence-transformers
+pdfplumber
+numpy
+faiss-cpu
+pillow
