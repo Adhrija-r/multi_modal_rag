@@ -4,6 +4,12 @@ from src.chunking.chunker import chunk_text
 from src.embeddings.embedder import embed_chunks
 from src.retriever.retriever import retrieve
 from src.generation.qa_generator import generate_answer
+import sys
+import os
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(ROOT)
+
 
 st.title("📄 Multi-Modal RAG System")
 
