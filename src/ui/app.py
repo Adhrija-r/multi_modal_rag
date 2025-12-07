@@ -1,14 +1,17 @@
-import streamlit as st
-st.write("App loaded")
+import sys
+import os
 
-st.write("App loaded")
-import streamlit as st
+# Fix import path — MUST COME FIRST
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(ROOT)
 
-from ingestion.pdf_parser import parse_pdf
-from chunking.chunker import chunk_text
-from embeddings.embedder import embed_chunks
-from retriever.retriever import retrieve
-from generation.qa_generator import generate_answer
+import streamlit as st
+from src.ingestion.pdf_parser import parse_pdf
+from src.chunking.chunker import chunk_text
+from src.embeddings.embedder import embed_chunks
+from src.retriever.retriever import retrieve
+from src.generation.qa_generator import generate_answer
+
 
 st.title("📄 Multi-Modal RAG System")
 
