@@ -1,7 +1,7 @@
 # very small chunker: splits text into paragraph chunks
 import uuid
 
-def chunk_pages(pages, max_chars=2000):
+def chunk_text(pages):
     chunks = []
     for p in pages:
         text = p.get("text","")
