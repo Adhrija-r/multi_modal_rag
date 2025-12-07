@@ -11,6 +11,8 @@ from src.chunking.chunker import chunk_text
 from src.embeddings.embedder import embed_chunks
 from src.retriever.retriever import retrieve
 from src.generation.qa_generator import generate_answer
+from src.chunking.chunker import create_chunks as chunk_text
+
 
 st.title("📄 Multi-Modal RAG System")
 
